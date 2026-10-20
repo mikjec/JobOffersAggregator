@@ -13,7 +13,7 @@ public class Main {
         File xmlFile = new File(XML_FILE_PATH);
         List<Offer> offers;
 
-        // 1. Sprawdzenie czy plik XML istnieje
+        //Sprawdzenie czy plik XML istnieje
         if (!xmlFile.exists()) {
             System.out.println("Plik " + XML_FILE_PATH + " nie istnieje. Tworzenie nowego pliku...");
             manager.createEmptyXmlFile(XML_FILE_PATH);
@@ -26,13 +26,13 @@ public class Main {
         System.out.println("\nWczytane oferty (" + offers.size() + "):");
         offers.forEach(offer -> System.out.println(" - " + offer));
 
-        // 2. Dodanie 3 nowych ofert z poziomu programu
+        //Dodanie 3 nowych ofert z poziomu programu
         System.out.println("\nDodawanie 3 nowych ofert...");
         offers.add(new Offer("DevOps Engineer", "Kubernetes, AWS, Docker", "Remote"));
         offers.add(new Offer("Python Data Engineer", "Python, Spark, SQL", "Krakow"));
         offers.add(new Offer("QA Automation Engineer", "Java, Selenium, Cypress", "Gdansk"));
 
-        // 3. Usuniecie jednej oferty z listy
+        //Usuniecie jednej oferty z listy
         if (!offers.isEmpty()) {
             Offer removed = offers.remove(0);
             System.out.println("Usunieto oferte: " + removed);
@@ -41,7 +41,7 @@ public class Main {
         System.out.println("\nAktualna lista ofert przed zapisem (" + offers.size() + "):");
         offers.forEach(offer -> System.out.println(" - " + offer));
 
-        // 4. Zapis zaktualizowanej listy z powrotem do pliku XML
+        // Zapis zaktualizowanej listy z powrotem do pliku XML
         System.out.println("\nZapisywanie ofert do pliku " + XML_FILE_PATH + "...");
         manager.saveOffersToXml(XML_FILE_PATH, offers);
     }

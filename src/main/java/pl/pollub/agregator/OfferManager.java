@@ -38,7 +38,7 @@ public class OfferManager {
             writer.writeEndDocument();
             writer.flush();
             writer.close();
-            System.out.println("Utworzono nowy plik XML z prologiem: " + filePath);
+            System.out.println("Utworzono nowy plik XML: " + filePath);
         } catch (IOException | XMLStreamException e) {
             System.err.println("Blad podczas tworzenia pliku XML " + filePath + ": " + e.getMessage());
         }
