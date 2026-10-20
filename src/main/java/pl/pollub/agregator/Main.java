@@ -1,49 +1,48 @@
 package pl.pollub.agregator;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 
-    private static final String DB_FILE_PATH = "offers_db.txt";
+    private static final String XML_FILE_PATH = "offers_db.xml";
 
     public static void main(String[] args) {
         OfferManager manager = new OfferManager();
+        File xmlFile = new File(XML_FILE_PATH);
+        List<Offer> offers;
 
-        // Dodawanie nowych ofert do pliku
-        System.out.println("\nDodawanie nowej oferty");
-        String newOffer = "Cloud Solutions Architect (Java, GCP) - Warsaw";
-        manager.appendOffer(DB_FILE_PATH, newOffer);
+        // 1. Sprawdzenie czy plik XML istnieje
+        if (!xmlFile.exists()) {
+            System.out.println("Plik " + XML_FILE_PATH + " nie istnieje. Tworzenie nowego pliku...");
+            manager.createEmptyXmlFile(XML_FILE_PATH);
+            offers = new ArrayList<>();
+        } else {
+            System.out.println("Plik " + XML_FILE_PATH + " istnieje. Wczytywanie ofert...");
+            offers = manager.readOffersFromXml(XML_FILE_PATH);
+        }
 
-        // Wczytywanie wszystkich ofert z pliku
-        System.out.println("\nWczytywanie wszystkich ofert");
-        List<String> loadedOffers = manager.readOffers(DB_FILE_PATH);
-        System.out.println("Wszystkie wczytane oferty (łącznie " + loadedOffers.size() + "):");
-        loadedOffers.forEach(offer -> System.out.println(" - " + offer));
+        System.out.println("\nWczytane oferty (" + offers.size() + "):");
+        offers.forEach(offer -> System.out.println(" - " + offer));
 
-        // Filtrowanie ofert po słowie kluczowym Java
-        String filterKeyword = "Java";
-        System.out.println("\nOferty zawierajace słowo kluczowe \"" + filterKeyword + "\":");
-        List<String> javaOffers = manager.filterOffers(loadedOffers, filterKeyword);
-        javaOffers.forEach(offer -> System.out.println(" - " + offer));
+        // 2. Dodanie 3 nowych ofert z poziomu programu
+        System.out.println("\nDodawanie 3 nowych ofert...");
+        offers.add(new Offer("DevOps Engineer", "Kubernetes, AWS, Docker", "Remote"));
+        offers.add(new Offer("Python Data Engineer", "Python, Spark, SQL", "Krakow"));
+        offers.add(new Offer("QA Automation Engineer", "Java, Selenium, Cypress", "Gdansk"));
 
-        // Zliczanie wystąpien
-        System.out.println("\nZliczanie ofert:");
-        Map<String, Long> occurrences = manager.countOfferOccurrences(loadedOffers);
-        occurrences.forEach((offer, count) ->
-                System.out.printf("  (%d) %s%n", count, offer)
-        );
+        // 3. Usuniecie jednej oferty z listy
+        if (!offers.isEmpty()) {
+            Offer removed = offers.remove(0);
+            System.out.println("Usunieto oferte: " + removed);
+        }
 
-        // Mapowanie nowego strumienia, zamiana na wielkie litery
-        System.out.println("\nOferty po zmianie na wielkie litery:");
-        List<String> upperCaseOffers = manager.mapOffersToUpperCase(javaOffers);
-        upperCaseOffers.forEach(offer -> System.out.println(" " + offer));
+        System.out.println("\nAktualna lista ofert przed zapisem (" + offers.size() + "):");
+        offers.forEach(offer -> System.out.println(" - " + offer));
 
-        // Bezposredni odczyt, filtrowanie i sortowanie
-        System.out.println("\nBezposrednie przetwarzanie pliku (Files.lines)");
-        System.out.println("Posortowane oferty zawierajace \"Java\" wczytane prosto z pliku:");
-        List<String> sortedJavaOffersFromFile = manager.readFilterAndSortDirectlyFromFile(DB_FILE_PATH, "Java");
-        sortedJavaOffersFromFile.forEach(offer -> System.out.println(" - " + offer));
-
+        // 4. Zapis zaktualizowanej listy z powrotem do pliku XML
+        System.out.println("\nZapisywanie ofert do pliku " + XML_FILE_PATH + "...");
+        manager.saveOffersToXml(XML_FILE_PATH, offers);
     }
 }

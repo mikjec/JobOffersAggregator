@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<offers>
+    <offer>
+        <title>Frontend Developer</title>
+        <skills>React</skills>
+        <location>Hybrid</location>
+    </offer>
+    <offer>
+        <title>Senior Java Developer</title>
+        <skills>Java, Spring</skills>
+        <location>Remote</location>
+    </offer>
+    <offer>
+        <title>DevOps Engineer</title>
+        <skills>Kubernetes, AWS, Docker</skills>
+        <location>Remote</location>
+    </offer>
+    <offer>
+        <title>Python Data Engineer</title>
+        <skills>Python, Spark, SQL</skills>
+        <location>Krakow</location>
+    </offer>
+    <offer>
+        <title>QA Automation Engineer</title>
+        <skills>Java, Selenium, Cypress</skills>
+        <location>Gdansk</location>
+    </offer>
+</offers>
