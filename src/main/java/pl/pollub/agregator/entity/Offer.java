@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2026
+ * by Lublin University of Technology.
+ * All rights reserved.
+ */
 package pl.pollub.agregator.entity;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.pollub.agregator.dto.OfferDTO;
 
+/**
+ * Entity representing a job offer.
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -23,6 +31,11 @@ public class Offer {
 
     private String location;
 
+    /**
+     * Creates a DTO snapshot of the current offer state.
+     *
+     * @return OfferDTO containing copied fields
+     */
     public OfferDTO toSnapshot() {
         return OfferDTO.builder()
                 .id(this.id)
@@ -31,13 +44,18 @@ public class Offer {
                 .build();
     }
 
-    public void restoreFromSnapshot(OfferDTO dto) {
-        if (dto == null) {
-            return;
+    /**
+     * Restores offer fields from the provided DTO snapshot.
+     *
+     * @param snapshot non-null OfferDTO snapshot
+     */
+    public void restoreFromSnapshot(OfferDTO snapshot) {
+        if (snapshot == null) {
+            throw new IllegalArgumentException("Snapshot dla encji Offer (id=" + this.id + ") nie moze byc null.");
         }
-        this.id = dto.getId();
-        this.title = dto.getTitle();
-        this.location = dto.getLocation();
+        this.id = snapshot.getId();
+        this.title = snapshot.getTitle();
+        this.location = snapshot.getLocation();
     }
 
     @Override

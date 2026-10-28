@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2026
+ * by Lublin University of Technology.
+ * All rights reserved.
+ */
 package pl.pollub.agregator.entity;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.pollub.agregator.dto.CompanyDTO;
 
+/**
+ * Entity representing a company posting job offers.
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -23,6 +31,11 @@ public class Company {
 
     private String industry;
 
+    /**
+     * Creates a DTO snapshot of the current company state.
+     *
+     * @return CompanyDTO containing copied fields
+     */
     public CompanyDTO toSnapshot() {
         return CompanyDTO.builder()
                 .id(this.id)
@@ -31,13 +44,18 @@ public class Company {
                 .build();
     }
 
-    public void restoreFromSnapshot(CompanyDTO dto) {
-        if (dto == null) {
-            return;
+    /**
+     * Restores company fields from the provided DTO snapshot.
+     *
+     * @param snapshot non-null CompanyDTO snapshot
+     */
+    public void restoreFromSnapshot(CompanyDTO snapshot) {
+        if (snapshot == null) {
+            throw new IllegalArgumentException("Snapshot dla encji Company (id=" + this.id + ") nie moze byc null.");
         }
-        this.id = dto.getId();
-        this.name = dto.getName();
-        this.industry = dto.getIndustry();
+        this.id = snapshot.getId();
+        this.name = snapshot.getName();
+        this.industry = snapshot.getIndustry();
     }
 
     @Override

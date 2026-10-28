@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2026
+ * by Lublin University of Technology.
+ * All rights reserved.
+ */
 package pl.pollub.agregator.entity;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.pollub.agregator.dto.UserDTO;
 
+/**
+ * Entity representing an application user.
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -23,6 +31,11 @@ public class User {
 
     private String email;
 
+    /**
+     * Creates a DTO snapshot of the current user state.
+     *
+     * @return UserDTO containing copied fields
+     */
     public UserDTO toSnapshot() {
         return UserDTO.builder()
                 .id(this.id)
@@ -31,13 +44,18 @@ public class User {
                 .build();
     }
 
-    public void restoreFromSnapshot(UserDTO dto) {
-        if (dto == null) {
-            return;
+    /**
+     * Restores user fields from the provided DTO snapshot.
+     *
+     * @param snapshot non-null UserDTO snapshot
+     */
+    public void restoreFromSnapshot(UserDTO snapshot) {
+        if (snapshot == null) {
+            throw new IllegalArgumentException("Snapshot dla encji User (id=" + this.id + ") nie moze byc null.");
         }
-        this.id = dto.getId();
-        this.username = dto.getUsername();
-        this.email = dto.getEmail();
+        this.id = snapshot.getId();
+        this.username = snapshot.getUsername();
+        this.email = snapshot.getEmail();
     }
 
     @Override
