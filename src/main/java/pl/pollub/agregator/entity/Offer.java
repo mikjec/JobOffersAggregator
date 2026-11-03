@@ -1,54 +1,57 @@
-/*
- * Copyright (C) 2026
- * by Lublin University of Technology.
- * All rights reserved.
- */
 package pl.pollub.agregator.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.pollub.agregator.dto.OfferDTO;
 
-/**
- * Entity representing a job offer.
- */
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Offer {
 
-    @NonNull
     private Long id;
-
-    @NonNull
     private String title;
-
     private String location;
+    private Long companyId;
+    private boolean isActive;
 
-    /**
-     * Creates a DTO snapshot of the current offer state.
-     *
-     * @return OfferDTO containing copied fields
-     */
+    public Offer(Long id, String title) {
+        this.id = id;
+        this.title = title;
+        this.isActive = true;
+    }
+
     public OfferDTO toSnapshot() {
         return OfferDTO.builder()
                 .id(this.id)
                 .title(this.title)
                 .location(this.location)
+                .companyId(this.companyId)
                 .build();
     }
 
-    /**
-     * Restores offer fields from the provided DTO snapshot.
-     *
-     * @param snapshot non-null OfferDTO snapshot
-     */
+    public OfferDTO toDTO() {
+        return toSnapshot();
+    }
+
+    public static Offer fromDTO(OfferDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        return Offer.builder()
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .location(dto.getLocation())
+                .companyId(dto.getCompanyId())
+                .isActive(true)
+                .build();
+    }
+
     public void restoreFromSnapshot(OfferDTO snapshot) {
         if (snapshot == null) {
             throw new IllegalArgumentException("Snapshot dla encji Offer (id=" + this.id + ") nie moze byc null.");
@@ -56,10 +59,11 @@ public class Offer {
         this.id = snapshot.getId();
         this.title = snapshot.getTitle();
         this.location = snapshot.getLocation();
+        this.companyId = snapshot.getCompanyId();
     }
 
     @Override
     public String toString() {
-        return "Offer{id=" + id + ", title='" + title + "', location='" + location + "'}";
+        return "Offer{id=" + id + ", title='" + title + "', location='" + location + "', companyId=" + companyId + ", isActive=" + isActive + "}";
     }
 }

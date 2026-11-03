@@ -1,0 +1,355 @@
+{
+	"info": {
+		"_postman_id": "b3e0984a-5b12-4f38-8c54-7221017efad9",
+		"name": "Agregator API",
+		"description": "API documentation and test collection for Job Offers Agregator Spring Boot application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Get All Active Companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies"]
+						}
+					}
+				},
+				{
+					"name": "Get All Companies (Including Inactive)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies?includeInactive=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies"],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Company By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Offers By Company ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1/offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1", "offers"]
+						}
+					}
+				},
+				{
+					"name": "Create Company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"TechCorp Sp. z o.o.\",\n  \"industry\": \"Software Development\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/companies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies"]
+						}
+					}
+				},
+				{
+					"name": "Update Company",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"TechCorp Solutions\",\n  \"industry\": \"IT Consulting\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1"]
+						}
+					}
+				},
+				{
+					"name": "Soft Delete Company (PATCH)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1/soft-delete",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1", "soft-delete"]
+						}
+					}
+				},
+				{
+					"name": "Hard Delete Company",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Offer",
+			"item": [
+				{
+					"name": "Get All Active Offers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers"]
+						}
+					}
+				},
+				{
+					"name": "Get All Offers (Including Inactive)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers?includeInactive=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers"],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Offers Filtered By Company ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers?companyId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers"],
+							"query": [
+								{
+									"key": "companyId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Offer By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Offer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Junior Java Developer\",\n  \"location\": \"Warszawa / Remote\",\n  \"companyId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers"]
+						}
+					}
+				},
+				{
+					"name": "Update Offer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Mid Java Developer\",\n  \"location\": \"Lublin\",\n  \"companyId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/offers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers", "1"]
+						}
+					}
+				},
+				{
+					"name": "Soft Delete Offer (PATCH)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers/1/soft-delete",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers", "1", "soft-delete"]
+						}
+					}
+				},
+				{
+					"name": "Hard Delete Offer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/offers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "offers", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"jan_kowalski\",\n  \"email\": \"jan.kowalski@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"jan_nowak\",\n  \"email\": \"jan.nowak@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}
