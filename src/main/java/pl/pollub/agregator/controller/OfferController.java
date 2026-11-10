@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.agregator.dto.OfferDTO;
-import pl.pollub.agregator.repository.OfferRepository;
+import pl.pollub.agregator.service.OfferService;
 
 import java.util.List;
 
@@ -14,41 +14,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OfferController {
 
-    private final OfferRepository offerRepository;
+    private final OfferService offerService;
 
     @GetMapping
     public List<OfferDTO> getAll(
             @RequestParam(name = "includeInactive", defaultValue = "false") boolean includeInactive,
             @RequestParam(name = "companyId", required = false) Long companyId) {
-        if (companyId != null) {
-            return offerRepository.getByCompanyId(companyId);
-        }
-        return offerRepository.getAll(includeInactive);
+        return offerService.getAll(includeInactive, companyId);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OfferDTO> getById(@PathVariable Long id) {
-        return offerRepository.getById(id)
+        return offerService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<OfferDTO> save(@RequestBody OfferDTO dto) {
-        OfferDTO created = offerRepository.save(dto);
+        OfferDTO created = offerService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OfferDTO> update(@PathVariable Long id, @RequestBody OfferDTO dto) {
-        return offerRepository.update(id, dto)
+        return offerService.update(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}/soft-delete")
     public ResponseEntity<Void> softDelete(@PathVariable Long id) {
-        boolean deleted = offerRepository.softDelete(id);
+        boolean deleted = offerService.softDelete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
@@ -59,7 +56,7 @@ public class OfferController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> hardDelete(@PathVariable Long id) {
-        boolean deleted = offerRepository.hardDelete(id);
+        boolean deleted = offerService.hardDelete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 

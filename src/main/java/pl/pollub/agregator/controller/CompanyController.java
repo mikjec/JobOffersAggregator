@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.agregator.dto.CompanyDTO;
 import pl.pollub.agregator.dto.OfferDTO;
-import pl.pollub.agregator.repository.CompanyRepository;
+import pl.pollub.agregator.service.CompanyService;
 
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompanyController {
 
-    private final CompanyRepository companyRepository;
+    private final CompanyService companyService;
 
     @GetMapping
     public List<CompanyDTO> getAll(@RequestParam(name = "includeInactive", defaultValue = "false") boolean includeInactive) {
-        return companyRepository.getAll(includeInactive);
+        return companyService.getAll(includeInactive);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CompanyDTO> getById(@PathVariable Long id) {
-        return companyRepository.getById(id)
+        return companyService.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -33,28 +33,28 @@ public class CompanyController {
     public ResponseEntity<List<OfferDTO>> getAllOffers(
             @PathVariable Long id,
             @RequestParam(name = "includeInactive", defaultValue = "false") boolean includeInactive) {
-        if (companyRepository.getById(id).isEmpty()) {
+        if (!companyService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(companyRepository.getAllOffers(id, includeInactive));
+        return ResponseEntity.ok(companyService.getAllOffers(id, includeInactive));
     }
 
     @PostMapping
     public ResponseEntity<CompanyDTO> save(@RequestBody CompanyDTO dto) {
-        CompanyDTO created = companyRepository.save(dto);
+        CompanyDTO created = companyService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CompanyDTO> update(@PathVariable Long id, @RequestBody CompanyDTO dto) {
-        return companyRepository.update(id, dto)
+        return companyService.update(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}/soft-delete")
     public ResponseEntity<Void> softDelete(@PathVariable Long id) {
-        boolean deleted = companyRepository.softDelete(id);
+        boolean deleted = companyService.softDelete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
@@ -65,7 +65,7 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> hardDelete(@PathVariable Long id) {
-        boolean deleted = companyRepository.hardDelete(id);
+        boolean deleted = companyService.hardDelete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 

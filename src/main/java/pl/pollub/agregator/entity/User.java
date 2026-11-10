@@ -1,5 +1,10 @@
 package pl.pollub.agregator.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +17,14 @@ import pl.pollub.agregator.dto.UserDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "`user`")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String email;
 
@@ -48,7 +58,7 @@ public class User {
 
     public void restoreFromSnapshot(UserDTO snapshot) {
         if (snapshot == null) {
-            throw new IllegalArgumentException("Snapshot dla encji User (id=" + this.id + ") nie moze byc null.");
+            throw new IllegalArgumentException("Snapshot dla encji User nie moze byc null.");
         }
         this.id = snapshot.getId();
         this.username = snapshot.getUsername();
