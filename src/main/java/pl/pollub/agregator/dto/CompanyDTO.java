@@ -14,4 +14,5 @@ public class CompanyDTO {
     private Long id;
     private String name;
     private String industry;
+    private Long userId;
 }

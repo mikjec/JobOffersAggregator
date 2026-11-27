@@ -2,9 +2,12 @@ package pl.pollub.agregator.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -33,6 +36,10 @@ public class Company {
     private String name;
     private String industry;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder.Default
     private Boolean isActive = true;
 
@@ -51,6 +58,7 @@ public class Company {
                 .id(this.id)
                 .name(this.name)
                 .industry(this.industry)
+                .userId(this.user != null ? this.user.getId() : null)
                 .build();
     }
 
@@ -81,6 +89,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{id=" + id + ", name='" + name + "', industry='" + industry + "', isActive=" + isActive + "}";
+        return "Company{id=" + id + ", name='" + name + "', industry='" + industry + "', userId=" + (user != null ? user.getId() : null) + ", isActive=" + isActive + "}";
     }
 }
