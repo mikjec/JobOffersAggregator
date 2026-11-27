@@ -78,7 +78,7 @@ public class User implements UserDetails {
 
     public void restoreFromSnapshot(UserDTO snapshot) {
         if (snapshot == null) {
-            throw new IllegalArgumentException("Snapshot dla encji User (id=" + this.id + ") nie moze byc null.");
+            throw new IllegalArgumentException("Snapshot for User entity (id=" + this.id + ") must not be null.");
         }
         this.id = snapshot.getId();
         this.username = snapshot.getUsername();

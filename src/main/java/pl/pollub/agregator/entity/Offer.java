@@ -71,7 +71,7 @@ public class Offer {
 
     public void restoreFromSnapshot(OfferDTO snapshot) {
         if (snapshot == null) {
-            throw new IllegalArgumentException("Snapshot dla encji Offer nie moze byc null.");
+            throw new IllegalArgumentException("Snapshot for Offer entity must not be null.");
         }
         this.id = snapshot.getId();
         this.title = snapshot.getTitle();

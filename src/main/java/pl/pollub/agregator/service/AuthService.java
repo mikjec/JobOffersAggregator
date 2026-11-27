@@ -26,7 +26,7 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("Uzytkownik o podanej nazwie juz istnieje.");
+            throw new IllegalArgumentException("User with the given username already exists.");
         }
 
         Role role = request.getRole() != null ? request.getRole() : Role.USER;
@@ -57,7 +57,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono uzytkownika."));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         String token = jwtService.generateToken(user);
 

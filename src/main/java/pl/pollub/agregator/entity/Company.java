@@ -80,7 +80,7 @@ public class Company {
 
     public void restoreFromSnapshot(CompanyDTO snapshot) {
         if (snapshot == null) {
-            throw new IllegalArgumentException("Snapshot dla encji Company nie moze byc null.");
+            throw new IllegalArgumentException("Snapshot for Company entity must not be null.");
         }
         this.id = snapshot.getId();
         this.name = snapshot.getName();

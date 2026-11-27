@@ -17,4 +17,8 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     List<Offer> findAllByCompanyId(Long companyId);
 
     List<Offer> findAllByCompanyIdAndIsActiveTrue(Long companyId);
+
+    long countByCompanyIdAndIsActiveTrue(Long companyId);
+
+    List<Offer> findAllByLocationContainingIgnoreCaseAndIsActiveTrue(String location);
 }
